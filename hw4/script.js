@@ -82,11 +82,19 @@ let appData = {
         appData.income = items.split(", ");
         appData.income.push(prompt("Может, что-то еще?", ""));
         appData.income.sort();
-        for(let key of appData.income){
+        /*for(let key of appData.income){
             console.log("Способы доп. заработка: "+key);
         }
         for(let key in appData){
             console.log("Наша программа включает в себя данные: "+key);
-        }
+        }*/
+        appData.income.forEach (function (itemmassive, i) {
+            alert("Способы доп. заработка: " + (i+1) + " - " + itemmassive);
+        });
     }
+
 };
+
+for (let key in appData) {
+    console.log("Наша программа включает в себя данные: " + key + " - " + appData[key]);
+}
