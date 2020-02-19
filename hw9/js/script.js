@@ -33,4 +33,53 @@ window.addEventListener('DOMContentLoaded', function(){
             }
         }
     });
+
+    // Timer
+    let deadLine = '2020-03-01';
+
+    function getTimeRemaining(endTime){
+        let t = Date.parse(endTime) - Date.parse(new Date()),
+            seconds = Math.floor((t/1000) % 60),
+            minutes = Math.floor((t/1000/60) % 60),
+            hours2  = Math.floor((t/(1000*60*60))),
+            hours   = Math.floor((t/1000/60/60) % 24),
+            days    = Math.floor((t/(1000*60*60*24)));
+
+        return {
+            'total'     : t,
+            'days'      : days,
+            'hours'     : hours,
+            'minutes'   : minutes,
+            'seconds'   : seconds
+        };
+    }
+
+    function setClock(id, endTime) {
+        let timer   = document.getElementById(id),
+            days = timer.querySelector('.days'),
+            hours   = timer.querySelector('.hours'),
+            minutes = timer.querySelector('.minutes'),
+            seconds = timer.querySelector('.seconds')
+            timeInterval = setInterval(updateClock, 1000);
+        
+        function updateClock(){
+            let t = getTimeRemaining(endTime);
+            if (t.total > 0){
+                days.textContent    = t.days;
+                hours.textContent   = t.hours < 10 ? "0"+t.hours : t.hours;
+                minutes.textContent = t.minutes < 10 ? "0"+t.minutes : t.minutes;
+                seconds.textContent = t.seconds < 10 ? "0"+t.seconds : t.seconds;
+            }
+            else{
+                days.textContent    = '0',
+                hours.textContent   = '00',
+                minutes.textContent = '00',
+                seconds.textContent = '00'; 
+                clearTimeout(timeInterval);
+            }
+        }
+    }
+
+    setClock('timer', deadLine);
+
 });
