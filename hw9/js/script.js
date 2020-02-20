@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', function(){
             days = timer.querySelector('.days'),
             hours   = timer.querySelector('.hours'),
             minutes = timer.querySelector('.minutes'),
-            seconds = timer.querySelector('.seconds')
+            seconds = timer.querySelector('.seconds'),
             timeInterval = setInterval(updateClock, 1000);
         
         function updateClock(){
@@ -81,5 +81,33 @@ window.addEventListener('DOMContentLoaded', function(){
     }
 
     setClock('timer', deadLine);
+
+    // modal
+
+    let more    = document.querySelector('.more'),
+        overley = document.querySelector('.overlay'),
+        close   = document.querySelector('.popup-close');
+
+    more.addEventListener('click', function(){
+        overley.style.display = 'block';
+        this.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+    });
+
+    close.addEventListener('click', function(){
+        overley.style.display = 'none';
+        more.classList.remove('more-splash'); 
+        document.body.style.overflow = '';  
+    });
+
+    // description-btn
+    let descriptionBtn = document.querySelectorAll('.description-btn');
+    for (let i = 0; i < descriptionBtn.length; i++){
+        descriptionBtn[i].addEventListener('click', function(){
+            overley.style.display = 'block';
+            descriptionBtn[i].classList.add('more-splash');
+            document.body.style.overflow = 'hidden'; 
+        });
+    }
 
 });
