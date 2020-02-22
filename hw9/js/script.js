@@ -110,4 +110,24 @@ window.addEventListener('DOMContentLoaded', function(){
         });
     }
 
+    //Создать класс options
+    class Options {
+        //Он должен содержать свойства: height, width, bg, fontSize, textAlign
+        constructor (height, width, bg, fontSize, textAlign){
+            this.height     = height;
+            this.width      = width;
+            this.bg         = bg;
+            this.fontSize   = fontSize;
+            this.textAlign  = textAlign;
+        }
+
+        //Он должен содержать метод, создающий новый div на странице, 
+        //записывающий в него любой текст и при помощи cssText 
+        //изменять свой стиль из переданных параметров
+        createDiv(){
+            let newDiv = document.createElement('div');
+            
+        }
+    }
+
 });
