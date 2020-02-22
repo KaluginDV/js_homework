@@ -126,8 +126,19 @@ window.addEventListener('DOMContentLoaded', function(){
         //изменять свой стиль из переданных параметров
         createDiv(){
             let newDiv = document.createElement('div');
-            
+            document.body.appendChild(newDiv);
+            //newDiv.style.height     = this.height;
+            //newDiv.style.width      = this.width;
+            //newDiv.style.background = this.bg;
+            //newDiv.style.fontSize   = this.fontSize + 'px';
+            //newDiv.style.textAlign  = this.textAlign;
+            //newDiv.textContent      = "Some text";
+            let style = `height:${this.height}px; width:${this.width}px; background-color:${this.bg}; font-size:${this.fontSize}px; text-align:${this.textAlign}`;
+            newDiv.style.cssText = style;
         }
     }
+
+    let newOptions = new Options(100, 100, 'black', 24, 'center');
+    newOptions.createDiv();
 
 });
