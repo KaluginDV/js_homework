@@ -158,4 +158,46 @@ window.addEventListener('DOMContentLoaded', function(){
         }
     });
 
+    let contactForm = document.getElementById('form'),
+    contactInputs = contactForm.getElementsByTagName('input'),
+    statusMessageContact = document.createElement('div');
+
+    statusMessageContact.classList.add('status');
+    
+    contactForm.addEventListener('submit', function(event){
+        event.preventDefault();
+        contactForm.appendChild(statusMessageContact);
+
+        let request = new XMLHttpRequest();
+        request.open('POST', 'server.php');
+        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+
+        let contactFormData = new FormData(contactForm);
+
+        let obj = {};
+        contactFormData.forEach(function(value, key){
+            obj[key] = value;
+        });
+
+        let json = JSON.stringify(obj);
+
+        request.send(json);
+
+        request.addEventListener('readystatechange', function(){
+            if (request.readyState < 4){
+                statusMessageContact.innerHTML = message.loading;
+            }  
+            else if(request.readyState === 4 && request.status == 200){
+                statusMessageContact.innerHTML = message.success;
+            }
+            else{
+                statusMessageContact.innerHTML = message.failure;
+            }
+        });
+
+        for (let i = 0; i < contactInputs.length; i ++){
+            contactInputs[i].value = '';
+        }
+    });
+
 });
