@@ -2,6 +2,8 @@
 let inputRub = document.getElementById('rub'),
     inputUsd = document.getElementById('usd');
 
+//У вас есть конвертер валют из предыдущего урока. Переписать его, используя промисы.
+
 inputRub.addEventListener('input', () => {
     let request = new XMLHttpRequest();
 
