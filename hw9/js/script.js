@@ -117,100 +117,69 @@ window.addEventListener('DOMContentLoaded', function(){
         failure: 'Что-то пошло не так...'
     };
 
-    let mainForm = document.querySelector('.main-form'),
-        input = mainForm.getElementsByTagName('input'),
+    let form = document.querySelector('.main-form'),
+        formDown = document.querySelector('#form'),
+        input = form.getElementsByTagName('input'),
         statusMessage = document.createElement('div');
 
     statusMessage.classList.add('status');
-    mainForm.addEventListener('submit', function(event){
-        event.preventDefault();
-        mainForm.appendChild(statusMessage);
 
-        //request
-        function catchMessage(){
+    function sendForm(element){
+
+        element.addEventListener('submit', function(event){
+            event.preventDefault();
+            element.appendChild(statusMessage);
+
+        let formData = new FormData(element);
+
+        function postData(){
 
             let promise = new Promise(function(resolve, reject){
                 let request = new XMLHttpRequest();
                 request.open('POST', 'server.php');
                 request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-        
-                let formData = new FormData(mainForm);
-        
+                
+                request.onreadystatechange = function() {
+                    if (request.readyState < 4){
+                        resolve();
+                    }  
+                    else if(request.readyState === 4) {
+                        if (request.status == 200 && request.status < 300){
+                            resolve();
+                        }
+                        else{
+                            reject();
+                        }
+                    }
+                };
                 let obj = {};
                 formData.forEach(function(value, key){
                     obj[key] = value;
                 });
                 let json = JSON.stringify(obj);
-        
                 request.send(json);
-                
-                request.onload = function(){
-                    if (request.readyState < 4){
-                        resolve(message.loading);
-                    }  
-                    else if(request.readyState === 4 && request.status == 200){
-                        resolve(message.success);
-                    }
-                    else{
-                        reject(message.failure);
-                    }  
-                };
             });
 
             return promise;
+
         }
 
-        catchMessage().then(message => {
-            statusMessage.innerHTML = message;    
-        }).then(message => {
-            statusMessage.innerHTML = message;     
-        });
-
-        for (let i = 0; i < input.length; i ++){
-            input[i].value = '';
-        }
-    });
-
-    let contactForm = document.getElementById('form'),
-    contactInputs = contactForm.getElementsByTagName('input'),
-    statusMessageContact = document.createElement('div');
-
-    statusMessageContact.classList.add('status');
-    
-    contactForm.addEventListener('submit', function(event){
-        event.preventDefault();
-        contactForm.appendChild(statusMessageContact);
-
-        let request = new XMLHttpRequest();
-        request.open('POST', 'server.php');
-        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-
-        let contactFormData = new FormData(contactForm);
-
-        let obj = {};
-        contactFormData.forEach(function(value, key){
-            obj[key] = value;
-        });
-
-        let json = JSON.stringify(obj);
-
-        request.send(json);
-
-        request.addEventListener('readystatechange', function(){
-            if (request.readyState < 4){
-                statusMessageContact.innerHTML = message.loading;
-            }  
-            else if(request.readyState === 4 && request.status == 200){
-                statusMessageContact.innerHTML = message.success;
+        function clearInput(){
+            for (let i = 0; i < input.length; i ++){
+                input[i].value = '';
             }
-            else{
-                statusMessageContact.innerHTML = message.failure;
-            }
+        }
+
+        postData(formData).then(() => statusMessage.innerHTML = message.loading)
+                        .then(() => statusMessage.innerHTML = message.success)
+                        .catch(() => statusMessage.innerHTML = message.failure)
+                        .then(clearInput);
+
         });
 
-        for (let i = 0; i < contactInputs.length; i ++){
-            contactInputs[i].value = '';
-        }
-    });
+    }
+
+    sendForm(form);
+    sendForm(formDown);
 
 });
