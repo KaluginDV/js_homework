@@ -126,7 +126,7 @@ window.addEventListener('DOMContentLoaded', function(){
         event.preventDefault();
         mainForm.appendChild(statusMessage);
 
-        //request
+        //request 
         let request = new XMLHttpRequest();
         request.open('POST', 'server.php');
         request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
