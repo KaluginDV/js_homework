@@ -231,4 +231,40 @@ window.addEventListener('DOMContentLoaded', function(){
         }
     });
 
+    // Calc
+    let persons     = document.querySelectorAll('.counter-block-input')[0],
+        restDays    = document.querySelectorAll('.counter-block-input')[1],
+        place       = document.getElementById('select'),
+        totalValue  = document.getElementById('total'),
+        personsSum  = 0,
+        daysSum     = 0,
+        total       = 0;
+
+    totalValue.innerHTML = 0;
+
+    persons.addEventListener('change', function(){
+        sumTotalValue();
+    });
+
+    restDays.addEventListener('change', function(){
+        sumTotalValue();
+    }); 
+
+    place.addEventListener('change', function(){
+        sumTotalValue();
+    });
+
+    function sumTotalValue(){
+        daysSum = +restDays.value;
+        personsSum = +persons.value;
+        total = (daysSum + personsSum) * 4000;
+        if(restDays.value == '' || persons.value == ''){
+            totalValue.innerHTML = 0;
+        }
+        else{
+            let a = total;
+            totalValue.innerHTML = a * place.options[place.selectedIndex].value;
+        }      
+    }
+
 });
